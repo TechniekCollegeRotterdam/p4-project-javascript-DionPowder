@@ -4,10 +4,11 @@ const bird = document.querySelector(".bird");
 let offsetLeft = 0;
 
 
-bird.addEventListener('click', function(e) {
-    offsetLeft += 20;
+window.addEventListener('keydown', function(e) {
+    if(e.key == "arrowleft") {
+        offsetLeft += 20;
  
-    bird.style.left =  offsetLeft+"px";
+    bird.style.left =  offsetLeft+"px";}
    //zet 20 erbij in de css en plakt px erachter
 })
 
