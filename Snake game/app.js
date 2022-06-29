@@ -2,7 +2,7 @@ let span = document.getElementsByTagName("span");
 let levelup = new Audio('levelup.mp3');
 let score0 = new Audio('score0-10.mp3');
 let score10 = new Audio('score10-20.mp3');
-let score20 = new Audio('score20-30.WAV');
+let score20 = new Audio('score20-30.mp3');
 let score30 = new Audio('score30+.mp3');
 let gameover = new Audio('gameover3.mp3');
 let score = 1;
@@ -26,6 +26,9 @@ score30.muted = true;
 //Functie om de score te resetten naar 0 als je dood gaat
 const decrement = function(){
     document.getElementById("span").innerHTML = span.textContent = '0';
+	//Alle elementen die geshowed en gehide worden als je doodgaat
+	document.getElementById("made").style.display = "none";
+	document.getElementById("goal").style.display = "block";
 	//death audio
 	gameover.play();
 	score0.muted = false;
@@ -50,6 +53,9 @@ const increment = function(){
 			score10.muted = true;
 			score20.muted = true;
 			score30.muted = false;
+			//Alle elementen die geshowed en gehide worden als je als je het doel haalt
+			document.getElementById("made").style.display = "block";
+			document.getElementById("goal").style.display = "none";
 		  };	
 	    	
 	   document.getElementById("span").innerHTML = parseInt(document.getElementById("span").innerHTML)+1;
@@ -62,7 +68,8 @@ const increment = function(){
 document.getElementById("startscreen").style.display = "block";
 document.getElementById("instructions").style.display = "block";
 document.getElementById("reload").style.display = "none";
-
+document.getElementById("goal").style.display = "none";
+document.getElementById("made").style.display = "none";
 
 
 
@@ -84,7 +91,8 @@ window.onload=function() {
    window.onkeydown = function(){
     document.getElementById("startscreen").style.display = "none";
     document.getElementById("instructions").style.display = "none";
-    document.getElementById("reload").style.display = "block"; 
+    document.getElementById("reload").style.display = "block";
+	document.getElementById("goal").style.display = "block";  
 	score0.play();
 	score10.play();
 	score20.play();
@@ -102,7 +110,7 @@ window.addEventListener('keydown', function(e) {
     
  
 
-//alle startingswaarden
+//de plek waar je begint
 px=py=10;
 gs=tc=20;
 ax=ay=15;
@@ -130,7 +138,7 @@ function game() {
 	//de zwarte achtergrond
     ctx.fillStyle="black";
 	ctx.fillRect(0,0,canv.width,canv.height);
-//de snake zelf, hoe lang die is
+//de snake zelf, hoe groot een blokje is en welke kleur
 	ctx.fillStyle="lime";
 	for(var i=0;i<trail.length;i++) {
 		ctx.fillRect(trail[i].x*gs,trail[i].y*gs,gs-2,gs-2);
@@ -169,7 +177,7 @@ function game() {
 }
 //deze functie registreert wanneer je op een key drukt
 function keyPush(evt) {
-	//dit zorgt ervoor dat als je jezelf doorkruist dat het een signaal afstuurt
+	//dit zorgt ervoor dat als je jezelf doorkruist je opnieuw begingt
    
 	switch(evt.keyCode) {
 		case 37:
